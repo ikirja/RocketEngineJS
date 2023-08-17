@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RocketEngineJS Example</title>
+
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100vh;
+      height: 100vh;
+      margin: 0 auto;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>RocketEngineJS Example</h1>
+  <script type="module">
+    import { RocketEngine, World, Player } from '/rocket-engine/index.js';
+
+    const map = [
+      [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
+      [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ],
+      [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ],
+      [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ],
+      [ 1, 0, 0, 0, 2, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1 ],
+      [ 1, 0, 0, 0, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 ],
+      [ 1, 0, 0, 0, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 ],
+      [ 1, 0, 0, 0, 0, 3, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1 ],
+      [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ],
+      [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ],
+      [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ],
+      [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ]
+    ]
+
+    const engine = new RocketEngine();
+
+    const world = new World({ tileSize: 50, tileColors: {
+      0: 'black',
+      1: 'gray',
+      2: 'lightgray',
+      3: 'blue'
+    }});
+
+    const player = new Player({
+      playerSize: [ 50, 50 ],
+      playerStartPosition: [ 10, 2 ],
+      velocity: 0.05,
+      maxSpeed: 8
+    });
+
+    world.addMap(map);
+
+    engine.setScreenDimensions({ width: 800, height: 600 });
+    engine.createScreen();
+    engine.addWorld(world);
+    engine.addPlayer(player);
+    engine.render();
+
+    controllerEvents(engine.getCanvas());
+
+    function controllerEvents(canvas) {
+      canvas.addEventListener('mousemove', (event) => {
+        engine.updateController('mouse', 'move', event);
+      });
+
+      canvas.addEventListener('mousedown', (event) => {
+        engine.updateController('mouse', 'pressed', event);
+      });
+
+      canvas.addEventListener('mouseup', (event) => {
+        engine.updateController('mouse', 'released', event);
+      });
+    }
+  </script>
+</body>
+</html>
