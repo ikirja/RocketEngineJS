@@ -55,11 +55,11 @@
     });
 
     const player = new Player({
+      sprite: new Texture('/game/images/player/rocket.png'),
       playerSize: [ 50, 50 ],
       playerStartPosition: [ 10, 2 ],
       velocity: 0.05,
-      maxSpeed: 8,
-      sprite: new Texture('/game/images/player/rocket.png')
+      maxSpeed: 8
     });
 
     world.addMap(map);

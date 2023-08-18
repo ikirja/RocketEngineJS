@@ -1,6 +1,7 @@
 import { Texture } from './texture.js';
 
 export class Player {
+  #sprite;
   #size;
   #startPosition;
   #playerCenter;
@@ -12,9 +13,9 @@ export class Player {
   #velocity;
   #maxSpeed;
   #controller;
-  #sprite;
 
-  constructor({ playerSize, playerStartPosition, velocity, maxSpeed, sprite }) {
+  constructor({ sprite, playerSize, playerStartPosition, velocity, maxSpeed }) {
+    this.#sprite = sprite;
     this.#size = playerSize;
     this.#startPosition = playerStartPosition;
     this.#playerCenter = [ 0, 0 ];
@@ -30,7 +31,6 @@ export class Player {
         cursorPosition: [ 0, 0 ]
       }
     };
-    this.#sprite = sprite;
   }
 
   setPlayerCenter(TILE_SIZE) {
@@ -118,7 +118,12 @@ export class Player {
     if (this.#sprite instanceof Texture) sprite = this.#sprite.getImage();
 
     if (sprite) {
+      ctx.save();
+      ctx.translate(this.#playerCenter[0], this.#playerCenter[1]);
+      ctx.rotate(Math.sin(this.#viewAngle));
+      ctx.translate(-this.#playerCenter[0], -this.#playerCenter[1]);
       ctx.drawImage(sprite, this.#playerCenter[0] - this.#size[0] / 2, this.#playerCenter[1] - this.#size[1] / 2, this.#size[0], this.#size[1]);
+      ctx.restore();
     } else {
       ctx.fillStyle = 'red';
       ctx.fillRect(this.#playerCenter[0] - this.#size[0] / 2, this.#playerCenter[1] - this.#size[1] / 2, this.#size[0], this.#size[1]);
