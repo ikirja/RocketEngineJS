@@ -21,37 +21,45 @@
 <body>
   <h1>RocketEngineJS Example</h1>
   <script type="module">
-    import { RocketEngine, World, Player } from '/rocket-engine/index.js';
+    import { RocketEngine, World, Player, Texture } from '/rocket-engine/index.js';
 
     const map = [
       [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
       [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ],
       [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ],
-      [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ],
-      [ 1, 0, 0, 0, 2, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1 ],
-      [ 1, 0, 0, 0, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 ],
-      [ 1, 0, 0, 0, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 ],
-      [ 1, 0, 0, 0, 0, 3, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1 ],
-      [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ],
-      [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ],
-      [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ],
+      [ 1, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 1 ],
+      [ 1, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ],
+      [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 1 ],
+      [ 1, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 1 ],
+      [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 1 ],
+      [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 1, 1 ],
+      [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 1 ],
+      [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1 ],
       [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ]
     ]
 
     const engine = new RocketEngine();
 
     const world = new World({ tileSize: 50, tileColors: {
-      0: 'black',
-      1: 'gray',
-      2: 'lightgray',
-      3: 'blue'
-    }});
+        0: 'black',
+        1: 'gray',
+        2: 'lightgray',
+        3: 'blue'
+      },
+      tileTextures: {
+        0: new Texture('/game/images/patterns/space.jpg'),
+        1: new Texture('/game/images/patterns/rock.jpg'),
+        2: new Texture('/game/images/patterns/asteroid.jpg'),
+        3: new Texture('/game/images/objects/asteroid.jpg')
+      }
+    });
 
     const player = new Player({
       playerSize: [ 50, 50 ],
       playerStartPosition: [ 10, 2 ],
       velocity: 0.05,
-      maxSpeed: 8
+      maxSpeed: 8,
+      sprite: new Texture('/game/images/player/rocket.png')
     });
 
     world.addMap(map);
