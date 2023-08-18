@@ -90,8 +90,14 @@ export class Player {
     if (this.#moveAngle) this.#viewAngle = this.#viewAngle + 0.03 * this.#moveAngle;
   
     this.#drawPlayer(canvas);
-    this.#drawViewLine(canvas);
-    this.#drawLineToMouseCursor(canvas);
+
+    // DEBUG VIEW
+    const queryParams = new URLSearchParams(window.location.search);
+
+    if (queryParams.get('debug')) {
+      this.#drawViewLine(canvas);
+      this.#drawLineToMouseCursor(canvas);
+    }
   }
 
   #getRotateDirection() {
