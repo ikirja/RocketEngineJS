@@ -1,7 +1,8 @@
 import { World } from '/rocket-engine/lib/world.js';
 import { Player } from '/rocket-engine/lib/player.js';
+import { Texture } from '/rocket-engine/lib/texture.js';
 
-export { World, Player };
+export { World, Player, Texture };
 
 export class RocketEngine {
   #canvas;

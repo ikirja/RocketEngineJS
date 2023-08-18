@@ -1,3 +1,5 @@
+import { Texture } from './texture.js';
+
 export class Player {
   #size;
   #startPosition;
@@ -10,8 +12,9 @@ export class Player {
   #velocity;
   #maxSpeed;
   #controller;
+  #sprite;
 
-  constructor({ playerSize, playerStartPosition, velocity, maxSpeed }) {
+  constructor({ playerSize, playerStartPosition, velocity, maxSpeed, sprite }) {
     this.#size = playerSize;
     this.#startPosition = playerStartPosition;
     this.#playerCenter = [ 0, 0 ];
@@ -26,7 +29,8 @@ export class Player {
       mouse: {
         cursorPosition: [ 0, 0 ]
       }
-    }
+    };
+    this.#sprite = sprite;
   }
 
   setPlayerCenter(TILE_SIZE) {
@@ -109,8 +113,16 @@ export class Player {
 
   #drawPlayer(canvas) {
     const ctx = canvas.getContext('2d');
-    ctx.fillStyle = 'red';
-    ctx.fillRect(this.#playerCenter[0] - this.#size[0] / 2, this.#playerCenter[1] - this.#size[1] / 2, this.#size[0], this.#size[1]);
+    let sprite = null;
+    
+    if (this.#sprite instanceof Texture) sprite = this.#sprite.getImage();
+
+    if (sprite) {
+      ctx.drawImage(sprite, this.#playerCenter[0] - this.#size[0] / 2, this.#playerCenter[1] - this.#size[1] / 2, this.#size[0], this.#size[1]);
+    } else {
+      ctx.fillStyle = 'red';
+      ctx.fillRect(this.#playerCenter[0] - this.#size[0] / 2, this.#playerCenter[1] - this.#size[1] / 2, this.#size[0], this.#size[1]);
+    }
   }
 
   #drawViewLine(canvas) {

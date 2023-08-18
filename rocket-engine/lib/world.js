@@ -1,11 +1,15 @@
+import { Texture } from './texture.js';
+
 export class World {
   #MAP;
   #TILE_SIZE;
   #TILE_COLORS;
+  #TILE_TEXTURES;
 
-  constructor({ tileSize, tileColors }) {
+  constructor({ tileSize, tileColors, tileTextures }) {
     this.#TILE_SIZE = tileSize;
     this.#TILE_COLORS = tileColors;
+    this.#TILE_TEXTURES = tileTextures;
   }
 
   addMap(map) {
@@ -29,8 +33,18 @@ export class World {
 
     for (let row = 0; row < this.#MAP.length; row++) {
       for (let col = 0; col < this.#MAP[row].length; col++) {
-        ctx.fillStyle = this.#TILE_COLORS[this.#MAP[row][col]];
-        ctx.fillRect(mapOffsetX, mapOffsetY, this.#TILE_SIZE, this.#TILE_SIZE);
+        let texture = null;
+
+        if (this.#TILE_TEXTURES[this.#MAP[row][col]] instanceof Texture) {
+          texture = this.#TILE_TEXTURES[this.#MAP[row][col]].getImage();
+        }
+
+        if (texture) {
+          ctx.drawImage(texture, mapOffsetX, mapOffsetY, this.#TILE_SIZE, this.#TILE_SIZE);
+        } else {
+          ctx.fillStyle = this.#TILE_COLORS[this.#MAP[row][col]];
+          ctx.fillRect(mapOffsetX, mapOffsetY, this.#TILE_SIZE, this.#TILE_SIZE);
+        }
 
         mapOffsetX += this.#TILE_SIZE;
 
